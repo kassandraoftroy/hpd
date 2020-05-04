@@ -1,0 +1,1 @@
+web: gunicorn hallpassweb.wsgi --log-file -

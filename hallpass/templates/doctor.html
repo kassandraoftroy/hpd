@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://aristaticfiles.s3.amazonaws.com/ecbundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script>
+		if (window.location.protocol != "https:"){
+			window.location.protocol = "https";
+		}
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+    <style type="text/css">
+
+		body{
+			font-family: 'Roboto Mono', monospace;
+		    height: 100%;
+		}
+
+		h1 {
+		    font-size: 1.2em;
+		}
+
+		h2 {
+		    font-size: 0.8em;
+		}
+
+		.pull-right{text-align: center;}
+		.pull-left{float: left;}
+		.clear-fix{clear:both;}
+		div.logo{text-align: center;
+		         margin: 20px 20px 20px 20px;
+		         font-size: 26px;
+		         color: black !important;
+		         font-weight: bold;
+		         font-family: 'Roboto Mono', monospace;
+		         padding: 10px;
+		         color: white;
+		}
+
+		#formWrapper{
+		    width:100%;
+		    height:100%;
+		    position: absolute;
+		    top:0;
+		    left:0;
+		    background-color:#fff;
+		}
+
+		div#form{
+			font-family: 'Roboto Mono', monospace;
+			position: relative;
+		    vertical-align: center;
+		    width:100%;
+		    height:auto;
+		}
+
+		div.form-item{
+		    position: relative; display: block; margin-bottom: 20px;
+		    font-family: 'Roboto Mono', monospace;
+		}
+		div.text-item{
+		    position: relative; display: block;
+		    font-family: 'Roboto Mono', monospace;
+		    margin-left: 25%;
+		    font-size: 0.8em;
+		}
+		.right-text {
+			padding-left:5px;
+		}
+
+		div.form-item a {
+		}
+
+		a {
+			text-decoration: none;
+		    font-family: 'Roboto Mono', monospace;
+		    font-size: 1em;
+		    padding: 3px 0 0 0;
+		}
+
+		div.form-item a.login {
+		    width: 300px;
+		    height: 60px;
+		    border-radius: 10px;
+		    background-color: black;
+		    border:1px solid black;
+		    color: white;
+		    font-family: 'Roboto Mono', monospace;
+		    font-size: 105%;
+		    text-align: center;
+		    vertical-align: center;
+		    letter-spacing: .5px;
+		    padding: 5px 5%;
+		}
+
+		div.form-item a.login:hover{background-color: #fff; border:1px solid black; color:black; cursor:pointer;}
+		div.form-item a.login:focus{outline: none;}
+
+		div.form-item .form-style {
+		    width: 200px;
+		    height: 25px;
+		    -moz-border-radius: 10px;
+		    -webkit-border-radius: 10px;
+		    border-radius: 10px;
+		    background-color: white;
+		    border:1px #ccc solid;
+		    font-family: 'Roboto Mono', monospace;
+		    font-size: 1.35em;
+		    text-align: center;
+		    vertical-align: center;
+		    padding: 1px;
+		}
+		div.form-item .form-style:focus{
+		    outline: none; border:1px solid black; color:black;
+		}
+		div.form-item .form-style2 {
+		    width: 300px;
+		    height: 150px;
+		    -moz-border-radius: 10px;
+		    -webkit-border-radius: 10px;
+		    border-radius: 10px;
+		    background-color: white;
+		    border:1px #ccc solid;
+		    font-family: 'Roboto Mono', monospace;
+		    font-size: 1em;
+		    text-align: center;
+		    vertical-align: center;
+		    padding: 1px;
+		}
+		div.form-item .form-style2:focus{
+		    outline: none; border:1px solid black; color:black;
+		}
+		div.square {
+		    width: 180px;
+		    height: 180px;
+		    -moz-border-radius: 10px;
+		    -webkit-border-radius: 10px;
+		    border-radius: 10px;
+		    background-color: #ccc;
+		    border:1px solid black;
+		    font-family: 'Roboto Mono', monospace;
+		    text-align: center;
+		    padding: 2px;
+		}
+
+		.sm  { font-size: 20px; }
+		.btn { text-align: center; }
+		.ctr { text-align: center; font-size: 0.8em; }
+
+		#create {
+		    font-size: 15px;
+		    width: 245px;
+		}
+    </style>
+  </head>
+
+  <body>
+  	{% csrf_token %}
+	<div id="formWrapper">
+	  <div id="form">
+	  	<div id="header">
+		    <h1 style="font-family: 'Roboto Mono', monospace; text-align: center; font-size: 26px;">HollPass</h1>
+		    <p style="font-family: 'Roboto Mono', monospace; text-align: center;">Privacy Preserving Production Safety</p>
+		    <br>
+	    </div>
+		<div id="doctor-login">
+    		<div class="form-item ctr">
+    			<span style="font-size: 20px">MEDIC-AUTHENTICATED LOGIN</span>
+    			<br><br>
+			  	Please enter your production key:<br>
+			  	<input type="password" id="login-key" size='24' class="form-style" autocomplete="off"><br><br>
+			</div>
+	    	<div class="form-item ctr">
+	    		<span style="color:red;" id="login-error"></span>
+	    	</div>
+			  <div class="form-item btn">
+			  	<a class="login" id="login-submit">&nbsp;log in&nbsp;</a>
+			  </div>
+		</div>
+		<div id="doctor-view">
+			<div id="tests" class="form-item ctr">
+			</div>
+		</div>
+	  </div>
+	</div>
+  </body>
+
+  <script>
+  	$("#doctor-view").hide();
+	var ecies = ECIES;
+	var Buf = BUFFER.Buffer;
+	var tencoder = new TextEncoder('utf8');
+	var tdecoder = new TextDecoder('utf8');
+	var sessionMasterPriv = '';
+	window.onload = function() {
+		var csrftoken = getCookie('csrftoken');
+		$.ajaxSetup({
+		    beforeSend: function(xhr, settings) {
+		        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		        }
+		    }
+		});
+	}
+
+	$("#login-submit").click(function(){
+		var key = $("#login-key").val();
+		var pub = derivePubHex(key);
+		$.ajax({
+		  type: "POST",
+		  url: "{% url 'fetchData' %}",
+		  data: {'pk': pub},
+		  success: function (data) {
+		  	$("#doctor-login").hide();
+		  	var decrypted = decrypt(key, data.data);
+		  	var testers = JSON.parse(decrypted);
+		  	document.getElementById('tests').innerHTML = "Your Tests: <br><br>"
+		  	for (var i=0; i<testers.length; i++) {
+		  		document.getElementById('tests').innerHTML += "name: " +testers[i][0]+" testID: "+testers[i][1]+" customer code: "+testers[i][2]+"<br>";
+		  	}
+		  	$("#doctor-view").show();
+		  },
+		  error: function (XMLHttpRequest, textStatus, errorThrown) {
+		    document.getElementById('login-error').innerHTML = 'invalid login.';
+		  }
+		});
+	})
+
+	function decrypt(hexKey, b64cipher) {
+		var cipher = Buf.from(b64decode(b64cipher));
+		var dec = ecies.decrypt(hexKey, cipher);
+		return tdecoder.decode(dec);
+	}
+
+	function encrypt(hexPub, data) {
+		return b64encode(ecies.encrypt(hexPub, data));
+	}
+
+	function derivePubHex(hexKey) {
+		var sk = ecies.PrivateKey.fromHex(hexKey);
+		return sk.publicKey.toHex(true);
+	}
+
+	function sha256(str) {
+		return CryptoJS.SHA256(str).toString(CryptoJS.enc.Hex);
+	}
+
+	function b64encode(arr) {
+		var binary = "";
+	    var len = arr.byteLength;
+	    for (var i = 0; i < len; i++) {
+	        binary += String.fromCharCode( arr[ i ] );
+	    }
+	    return window.btoa( binary );
+	}
+
+	function b64decode(arr) {
+	    var binary_string = window.atob(arr);
+	    var len = binary_string.length;
+	    var bytes = new Uint8Array(len);
+	    for (var i = 0; i < len; i++) {
+	        bytes[i] = binary_string.charCodeAt(i);
+	    }
+	    return bytes;
+	}
+
+	function randstring(length) {
+	   var result           = '';
+	   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	   var charactersLength = characters.length;
+	   for ( var i = 0; i < length; i++ ) {
+	      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	   }
+	   return result;
+	}
+
+	function getCookie(name) {
+	    var cookieValue = null;
+	    if (document.cookie && document.cookie !== '') {
+	        var cookies = document.cookie.split(';');
+	        for (var i = 0; i < cookies.length; i++) {
+	            var cookie = jQuery.trim(cookies[i]);
+	            // Does this cookie string begin with the name we want?
+	            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+	                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                break;
+	            }
+	        }
+	    }
+	    return cookieValue;
+	}
+
+	function csrfSafeMethod(method) {
+	    // these HTTP methods do not require CSRF protection
+	    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+
+  </script>
+</html>
