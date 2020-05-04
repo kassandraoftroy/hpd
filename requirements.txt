@@ -1,7 +1,7 @@
 asn1crypto==1.2.0
 coincurve==13.0.0
 dj-database-url==0.5.0
-Django==3.0
+Django==3.0.3
 ecdsa==0.14.1
 eciespy==0.3.2
 eth-hash==0.2.0
