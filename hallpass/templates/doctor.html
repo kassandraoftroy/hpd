@@ -207,7 +207,12 @@
 
 	$("#login-submit").click(function(){
 		var key = $("#login-key").val();
-		var pub = derivePubHex(key);
+		try {
+			var pub = derivePubHex(key);	
+		} catch(err) {
+			document.getElementById('login-error').innerHTML = 'invalid login.';
+			return null;
+		}
 		$.ajax({
 		  type: "POST",
 		  url: "{% url 'fetchData' %}",
@@ -218,7 +223,7 @@
 		  	var testers = JSON.parse(decrypted);
 		  	document.getElementById('tests').innerHTML = "Your Tests: <br><br>"
 		  	for (var i=0; i<testers.length; i++) {
-		  		document.getElementById('tests').innerHTML += "name: " +testers[i][0]+" testID: "+testers[i][1]+" customer code: "+testers[i][2]+"<br>";
+		  		document.getElementById('tests').innerHTML += "first name: <span style='color:red'>9331A</span> last name: <span style='color:red'>" +testers[i][1]+" </span> med rec #: <span style='color:red'>"+testers[i][2]+" </span>(real name: <span style='color:red'>"+testers[i][0]+"</span> contact: <span style='color:red'>"+testers[i][3]+"</span>)<br>";
 		  	}
 		  	$("#doctor-view").show();
 		  },
