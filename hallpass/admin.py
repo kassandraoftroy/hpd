@@ -1,4 +1,4 @@
 from django.contrib import admin
-from hallpass.models import *
+from hallpass.models import EncryptedData
 
-admin.site.register(EncrpytedData)
+admin.site.register(EncryptedData)
